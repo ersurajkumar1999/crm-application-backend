@@ -4,7 +4,8 @@ const {
     updateUserByID,
     findUserById,
     totalUsers,
-    getUsers
+    getUsers,
+    findUserByUserName
 } = require("../services/userServices");
 
 const getProfile = async (req, res) => {
@@ -79,6 +80,18 @@ const updateUser = async (req, res) => {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
 }
+const checkUsernameExist = async (req, res) => {
+    const { userName } = req.body;
+    if (!userName) {
+        return errorResponseMessage(res, "Something went wrong while validating the userName!", 401)
+    }
+    try {
+        const user = await findUserByUserName(userName);
+        return successResponseMessage(res, "Get userName", user ? true : false)
+    } catch (error) {
+        return errorResponseMessage(res, "Something went wrong: " + error.message);
+    }
+}
 
 module.exports = {
     getProfile,
@@ -86,4 +99,5 @@ module.exports = {
     getUserById,
     deleteUser,
     updateUser,
+    checkUsernameExist
 };

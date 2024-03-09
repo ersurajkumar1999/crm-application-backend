@@ -6,6 +6,9 @@ const createUser = async (user) => {
 const findUserByEmail = async (email) => {
     return await userModel.findOne({ email: email });
 }
+const findUserByUserName = async (username) => {
+    return await userModel.findOne({ username: username });
+}
 const findUserById = async (userId) => {
     return await userModel.findOne({ _id: userId }).select('-password').populate('profile');
 }
@@ -55,5 +58,6 @@ module.exports = {
     totalUsers,
     getUsers,
     generateAccountNumber,
-    generateReferralCode
+    generateReferralCode,
+    findUserByUserName
 }
