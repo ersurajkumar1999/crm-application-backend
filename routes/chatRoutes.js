@@ -1,10 +1,9 @@
 const router = require("express").Router();
 const { auth } = require("../middlewares/authMiddleware");
-const { searchUsers,fetchAllChats, sendMessage, getMessages } = require("../controllers/ChatController");
+const { searchUsers, fetchAllChats } = require("../controllers/ChatController");
 
 router.post('/search-users', auth, searchUsers);
 router.post('/fetch-all-chats', auth, fetchAllChats);
-router.post('/messages', auth, sendMessage);
-router.get("/fetch-messages/:chatId", auth, getMessages);
+
 
 module.exports = router;

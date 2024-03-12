@@ -34,11 +34,6 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    referralCode: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     status: {
         type: Boolean,
         default: true,
@@ -68,7 +63,7 @@ const UserSchema = new mongoose.Schema({
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-
+    
     token: {
         type: String,
     }
