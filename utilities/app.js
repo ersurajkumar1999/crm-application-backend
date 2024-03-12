@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const homeRoutes = require('../routes/homeRoutes');
 const authRoutes = require('../routes/authRoutes');
 const userRoutes = require('../routes/userRoutes');
+const postRoutes = require('../routes/postRoutes');
 // const countryRoutes = require('../routes/countryRoutes');
 // const stateRoutes = require('../routes/stateRoutes');
 const app = express();
@@ -19,7 +20,7 @@ app.use(cors());
 app.use('/', homeRoutes);
 app.use('/api/v1', authRoutes)
 app.use('/api/v1', userRoutes)
-// app.use('/api/v1', countryRoutes)
+app.use('/api/v1', postRoutes)
 // app.use('/api/v1', stateRoutes)
 
 module.exports = { app };

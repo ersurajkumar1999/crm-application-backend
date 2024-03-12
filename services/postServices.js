@@ -16,8 +16,20 @@ const totalPosts = async () => {
     return await postModel.countDocuments();
 }
 const getAllPosts = async (skip, pageSize) => {
-    return await postModel.find().populate('createdBY').sort({ createdAt: -1 })
-        .skip(skip).limit(pageSize).exec();
+    return await postModel.find()
+        .populate('createdBY')
+        .populate({
+            path: 'createdBY',
+            select: 'email username',
+            populate: {
+                path: 'profile', // Populate profile information of the user
+                select: 'firstName lastName image'
+            }
+        })
+        .sort({ createdAt: -1 })
+        .skip(skip).
+        limit(pageSize).
+        exec();
 }
 module.exports = {
     createPost,

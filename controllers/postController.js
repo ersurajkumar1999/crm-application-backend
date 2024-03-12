@@ -4,7 +4,8 @@ const Post = require("../models/Post");
 const create = async (req, res) => {
     try {
         const { titel, content, images } = req.body
-        const userId = req.user.id;
+        // const userId = req.user.id;
+        const userId = "65ec949734f59b5f6e043543";
         if (!titel) {
             return errorResponseMessage(res, "Titel is required!");
         }
