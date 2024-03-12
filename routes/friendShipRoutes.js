@@ -3,7 +3,7 @@ const {
     sendFriendRequest,
     acceptFriendRequest,
     rejectFriendRequest
-} = require('../controllers/friendShipController');
+} = require('../controllers/FriendShipController');
 const { auth } = require('../middlewares/authMiddleware');
 const router = express.Router();
 

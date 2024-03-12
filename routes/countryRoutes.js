@@ -1,5 +1,5 @@
 const express = require('express');
-const { create, getCountries, findCountry } = require('../controllers/countryController');
+const { create, getCountries, findCountry } = require('../controllers/CountryController');
 const { auth, isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
 

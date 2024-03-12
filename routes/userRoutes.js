@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { deleteUser, updateUser, getUserById, getAllUsers } = require("../controllers/userController");
+const { deleteUser, updateUser, getUserById, getAllUsers } = require("../controllers/UserController");
 const { auth, isAdmin } = require("../middlewares/authMiddleware");
 
 router.post('/users', auth, isAdmin, getAllUsers);
