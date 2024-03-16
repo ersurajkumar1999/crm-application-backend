@@ -7,7 +7,7 @@ const findUserByEmail = async (email) => {
     return await userModel.findOne({ email: email });
 }
 const findUserById = async (userId) => {
-    return await userModel.findOne({ _id: userId });
+    return await userModel.findOne({ _id: userId }).populate('profile');
 }
 const deleteUserById = async (userId) => {
     return await userModel.deleteOne({ _id: userId });

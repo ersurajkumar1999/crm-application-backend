@@ -68,10 +68,22 @@ const updateUser = async (req, res) => {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
 }
+const getProfile = async (req, res) => {
+    if (!req.user?.id) {
+        return errorResponseMessage(req, "Something went wrong while validating the token!", 401)
+    }
+    try {
+        const user = await findUserById(req.user.id);
+        return successResponseMessage(res, "Get Profile", user)
+    } catch (error) {
+        return errorResponseMessage(res, "Something went wrong: " + error.message);
+    }
+}
 
 module.exports = {
     getAllUsers,
     getUserById,
     deleteUser,
     updateUser,
+    getProfile
 };

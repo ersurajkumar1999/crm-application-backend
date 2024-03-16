@@ -19,7 +19,7 @@ app.use(cors());
 
 app.use('/', homeRoutes);
 app.use('/api/v1/auth', authRoutes)
-app.use('/api/v1/auth', userRoutes)
+app.use('/api/v1', userRoutes)
 app.use('/api/v1', postRoutes)
 // app.use('/api/v1', stateRoutes)
 
