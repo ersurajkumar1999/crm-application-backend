@@ -5,7 +5,7 @@ const create = async (req, res) => {
     try {
         const { titel, content, images } = req.body
         // const userId = req.user.id;
-        const userId = "65ec949734f59b5f6e043543";
+        const userId = "65df1bf9e969f6872b7f3783";
         if (!titel) {
             return errorResponseMessage(res, "Titel is required!");
         }

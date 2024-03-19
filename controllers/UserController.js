@@ -1,4 +1,5 @@
 const { errorResponseMessage, successResponseMessage } = require("../helper/responseMessage");
+const { updateUserProfile } = require("../services/profileServices");
 const {
     deleteUserById,
     updateUserByID,
@@ -79,11 +80,24 @@ const getProfile = async (req, res) => {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
 }
+const updateProfile = async (req, res) => {
+    if (!req.user?.id) {
+        return errorResponseMessage(req, "Something went wrong while validating the token!", 401)
+    }
+    try {
+        const user = await findUserById(req.user.id);// get profile Id
+        const profile = await updateUserProfile(user.profile._id, req.body);// update profile data
+        const profileData = await findUserById(req.user.id); // get updated data  
+        return successResponseMessage(res, "User Profile updated successfully!", profileData);
+    } catch (error) {
+        return errorResponseMessage(res, "Something went wrong: " + error.message);
+    }
+}
 
 module.exports = {
     getAllUsers,
     getUserById,
     deleteUser,
     updateUser,
-    getProfile
+    getProfile, updateProfile
 };
