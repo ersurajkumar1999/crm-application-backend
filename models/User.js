@@ -63,7 +63,9 @@ const UserSchema = new mongoose.Schema({
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    
+
+    socials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SocialMedia' }],
+
     token: {
         type: String,
     }

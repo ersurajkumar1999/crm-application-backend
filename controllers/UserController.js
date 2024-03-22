@@ -1,4 +1,6 @@
 const { errorResponseMessage, successResponseMessage } = require("../helper/responseMessage");
+const User = require("../models/User");
+const { findOneAndUpdate, findSocialMediaById, createSocialMedia, updateSocialMediaByID, updateSocialMediaById } = require("../services/SocialMediaServices");
 const { updateUserProfile } = require("../services/profileServices");
 const {
     deleteUserById,
@@ -93,11 +95,33 @@ const updateProfile = async (req, res) => {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
 }
+const updateSocialMedia = async (req, res) => {
+    if (!req.user?.id) {
+        return errorResponseMessage(req, "Something went wrong while validating the token!", 401)
+    }
+    const userId = req.user?.id;
+    const { id, platform, link, visibility } = req.body;
+    try {
+        let socialMedia;
+        // Find or create the social media entry
+        if (id) {
+            socialMedia = await updateSocialMediaById(id, { platform, link, visibility });
+        } else {
+            socialMedia = await createSocialMedia({ platform, link, visibility });
+            // Find the user by ID and update the socials array
+
+            const result = await User.findByIdAndUpdate(userId, { $push: { socials: socialMedia._id } }, { new: true });
+        }
+        return successResponseMessage(res, "Social Media updated successfully!", socialMedia);
+    } catch (error) {
+        return errorResponseMessage(res, "Something went wrong: " + error.message);
+    }
+}
 
 module.exports = {
     getAllUsers,
     getUserById,
     deleteUser,
     updateUser,
-    getProfile, updateProfile
+    getProfile, updateProfile, updateSocialMedia
 };
