@@ -1,11 +1,12 @@
 const { errorResponseMessage, successResponseMessage, paginationResponseMessage } = require("../helper/responseMessage");
-const { createPost, totalPosts, getAllPosts } = require("../services/postServices");
+const { createPost, totalPosts, getAllPosts, findPostById } = require("../services/postServices");
 const Post = require("../models/Post");
 const create = async (req, res) => {
     try {
         const { titel, content, images } = req.body
-        // const userId = req.user.id;
-        const userId = "65df1bf9e969f6872b7f3783";
+        console.log("req.user==>",req.user);
+        const userId = req.user.id;
+        // const userId = "65df1bf9e969f6872b7f3783";
         if (!titel) {
             return errorResponseMessage(res, "Titel is required!");
         }
@@ -15,7 +16,8 @@ const create = async (req, res) => {
         const post = await createPost({
             titel, content, images, createdBY: userId
         })
-        return successResponseMessage(res, "Post created successfully!", post);
+        const updatePost = await findPostById(post._id);
+        return successResponseMessage(res, "Post created successfully!", updatePost);
     } catch (error) {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }

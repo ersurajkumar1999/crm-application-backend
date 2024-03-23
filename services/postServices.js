@@ -3,9 +3,18 @@ const postModel = require("../models/Post");
 const createPost = async (post) => {
     return await postModel.create(post);
 }
-// const findPostById = async (userId) => {
-//     return await postModel.findOne({ _id: userId });
-// }
+const findPostById = async (userId) => {
+    return await postModel.findOne({ _id: userId })
+        .populate('createdBY')
+        .populate({
+            path: 'createdBY',
+            select: 'email username',
+            populate: {
+                path: 'profile', // Populate profile information of the user
+                select: 'firstName lastName image'
+            }
+        });
+}
 // const deleteUserById = async (userId) => {
 //     return await postModel.deleteOne({ _id: userId });
 // }
@@ -33,7 +42,7 @@ const getAllPosts = async (skip, pageSize) => {
 }
 module.exports = {
     createPost,
-    // findPostById,
+    findPostById,
     // deleteUserById,
     // updateUserByID,
     totalPosts,

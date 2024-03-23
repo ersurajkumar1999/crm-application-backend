@@ -3,7 +3,7 @@ const router = express.Router();
 const { auth, isAdmin, isUser } = require('../middlewares/authMiddleware');
 const { create, getPosts, postLike, postUnLike } = require('../controllers/postController');
 
-router.post('/post/create', create);
+router.post('/post/create', auth, create);
 router.post('/posts', getPosts);
 // router.get('/state/:id', checkHome);
 // router.put('/state/:id', checkHome);
