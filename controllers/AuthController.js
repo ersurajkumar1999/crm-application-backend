@@ -9,6 +9,7 @@ const { sendMail } = require('../helper/emailServices');
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+        return sendMail(req, res);
         if (validator.isEmpty(email)) {
             return errorResponseMessage(res, "Email field is required");
         } else if (!validator.isEmail(email)) {
