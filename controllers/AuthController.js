@@ -9,7 +9,7 @@ const { sendMail } = require('../helper/emailServices');
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        return sendMail(req, res);
+        // return sendMail(req, res);
         if (validator.isEmpty(email)) {
             return errorResponseMessage(res, "Email field is required");
         } else if (!validator.isEmail(email)) {
@@ -40,6 +40,65 @@ const loginUser = async (req, res) => {
         );
         checkUserExists.token = "Bearer " + token;
         return successResponseMessage(res, "Login successfully!", checkUserExists);
+    } catch (error) {
+        return errorResponseMessage(res, "Something went wrong: " + error.message);
+    }
+
+}
+const LoginWithGoogle = async (req, res) => {
+    try {
+        const { name, email, given_name, family_name, email_verified, picture } = req.body;
+        let parts = email.split('@');
+        let username = parts[0];
+        const checkUserExists = await findUserByEmail(email);
+        if (checkUserExists) {
+            const token = jwt.sign(
+                {
+                    email: checkUserExists.email,
+                    id: checkUserExists._id,
+                    userType: checkUserExists.userType
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: '7d'
+                }
+            );
+            checkUserExists.token = "Bearer " + token;
+            return successResponseMessage(res, "Login successfully!", checkUserExists);
+        }
+        // return errorResponseMessage(res,email);
+        const pass = await hashedPassword('password');
+        const profile = await createProfile({
+            firstName: given_name,
+            lastName: family_name,
+            displayName: name,
+            image: picture
+        });
+        const accountNumber = await generateAccountNumber();
+        const userInfo = {
+            // userType: "Admin",
+            email,
+            username,
+            password: pass,
+            profile: profile._id,
+            accountNumber,
+            isEmailVerified: email_verified
+        }
+        const user = await createUser(userInfo);
+        // return successResponseMessage(res, "User created successfully!", user);
+        const token = jwt.sign(
+            {
+                email: user.email,
+                id: user._id,
+                userType: user.userType
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '7d'
+            }
+        );
+        user.token = "Bearer " + token;
+        return successResponseMessage(res, "Login successfully!", user);
     } catch (error) {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
@@ -130,4 +189,4 @@ const adminLogin = async (req, res) => {
 
 }
 
-module.exports = { loginUser, signupUser, adminLogin }
+module.exports = { loginUser, signupUser, adminLogin, LoginWithGoogle }

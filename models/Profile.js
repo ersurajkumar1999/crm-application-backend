@@ -1,24 +1,4 @@
 const mongoose = require("mongoose");
-
-const socialMediaSchema = new mongoose.Schema({
-    platform: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    link: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    visibility: {
-        type: String,
-        enum: ['public', 'private'], // 'public' or 'private'
-        default: 'public'
-    }
-});
-
-
 const profileSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -99,7 +79,6 @@ const profileSchema = new mongoose.Schema({
         trim: true,
         default: null
     },
-    socialMediaLinks: [socialMediaSchema], // Array of social media links
     createdAt: {
         type: Date,
         default: Date.now,
