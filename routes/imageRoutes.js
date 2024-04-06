@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const { auth } = require("../middlewares/authMiddleware");
 const { imageUpload, deleteImage } = require('../controllers/ImageController');
 // const upload = multer({
 //     dest: 'uploads/',

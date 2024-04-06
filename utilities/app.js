@@ -8,6 +8,7 @@ const postRoutes = require('../routes/postRoutes');
 const connectionRoutes = require('../routes/connectionRoutes');
 const friendShipRoutes = require('../routes/friendShipRoutes');
 const chatRoutes = require('../routes/chatRoutes');
+const imageRoutes = require('../routes/imageRoutes');
 // const countryRoutes = require('../routes/countryRoutes');
 // const stateRoutes = require('../routes/stateRoutes');
 const app = express();
@@ -28,5 +29,9 @@ app.use('/api/v1', connectionRoutes);
 app.use('/api/v1', friendShipRoutes);
 app.use('/api/v1', chatRoutes);
 // app.use('/api/v1', stateRoutes)
+
+// all types of images
+app.use('/api/v1', imageRoutes);
+
 
 module.exports = { app };

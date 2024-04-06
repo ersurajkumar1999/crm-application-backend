@@ -22,8 +22,14 @@ const totalUsers = async () => {
     return await userModel.countDocuments({ userType: "User" });
 }
 const getUsers = async (skip, pageSize, loggedInUserId) => {
-    return await userModel.find({ userType: "User", _id: { $ne: loggedInUserId } }).populate('profile').populate('friendRequestsSent').populate('friendRequestsReceived').sort({ createdAt: -1 })
-        .skip(skip).limit(pageSize).exec();
+    return await userModel.find({ userType: "User", _id: { $ne: loggedInUserId } })
+        .populate('profile')
+        .populate('friendRequestsSent')
+        .populate('friendRequestsReceived')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(pageSize)
+        .exec();
 }
 const generateAccountNumber = async () => {
     const accountNumber = Math.floor(100000000000 + Math.random() * 900000000000);

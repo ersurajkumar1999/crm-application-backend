@@ -5,6 +5,8 @@ const { createUser, findUserByEmail, generateAccountNumber } = require('../servi
 const { createProfile } = require('../services/profileServices');
 const { comparePassword, hashedPassword } = require('../helper/PasswordManager');
 const { sendMail } = require('../helper/emailServices');
+const { createDummyUser } = require('../helper/common');
+
 
 const loginUser = async (req, res) => {
     try {
@@ -189,4 +191,19 @@ const adminLogin = async (req, res) => {
 
 }
 
-module.exports = { loginUser, signupUser, adminLogin, LoginWithGoogle }
+const createDummyUsers = async (req, res) => {
+    const numUsers = 100;
+    const users = []; // Initialize an array to store created users
+    for (let i = 0; i < numUsers; i++) {
+        const user = await createDummyUser(); // Create a dummy user
+        users.push(user); // Push the created user into the array
+    }
+
+    // Return success response with the array of created users
+    return successResponseMessage(res, "Dummy users created successfully!", users);
+}
+
+module.exports = {
+    loginUser, signupUser, adminLogin,
+    LoginWithGoogle, createDummyUsers
+}
