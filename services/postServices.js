@@ -13,6 +13,11 @@ const findPostById = async (userId) => {
                 path: 'profile', // Populate profile information of the user
                 select: 'firstName lastName image'
             }
+        })
+        .populate({
+            path: 'images',
+            select: 'imagePath imageId', // Select only the imagePath field from the Image model
+            // match: { status: true, isDeleted: false } // Optionally, you can add conditions to filter images
         });
 }
 // const deleteUserById = async (userId) => {

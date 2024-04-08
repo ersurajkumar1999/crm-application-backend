@@ -11,11 +11,12 @@ const postSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
-    images: {
-        type: [String], // Array of strings
-        trim: true,
-        default: [],
-    },
+    images: [{ type: mongoose.Schema.Types.ObjectId, ref: "Image" }],
+    // images: {
+    //     type: [String], // Array of strings
+    //     trim: true,
+    //     default: [],
+    // },
     status: {
         type: Boolean,
         default: true,

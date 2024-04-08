@@ -2,27 +2,32 @@ const mongoose = require("mongoose");
 
 const imageSchema = new mongoose.Schema({
     createdBY: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    fileId: {
+    imageId: {
         type: String,
         trim: true,
         required: true,
     },
-    fileType: {
+    imageType: {
         type: String,
         trim: true,
         required: true,
     },
-    fileSize: {
+    imageSize: {
         type: String,
         trim: true,
         required: true,
     },
-    filePath: {
+    imagePath: {
         type: String,
         trim: true,
         required: true,
     },
-    fileUrl: {
+    imageUrl: {
+        type: String,
+        trim: true,
+        required: true,
+    },
+    folderName: {
         type: String,
         trim: true,
         required: true,

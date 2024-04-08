@@ -4,9 +4,8 @@ const Post = require("../models/Post");
 const create = async (req, res) => {
     try {
         const { titel, content, images } = req.body
-        console.log("req.user==>",req.user);
+        const imageIds = images.map(image => image._id);
         const userId = req.user.id;
-        // const userId = "65df1bf9e969f6872b7f3783";
         if (!titel) {
             return errorResponseMessage(res, "Titel is required!");
         }
@@ -14,7 +13,7 @@ const create = async (req, res) => {
             return errorResponseMessage(res, "Content is required!");
         }
         const post = await createPost({
-            titel, content, images, createdBY: userId
+            titel, content, images:imageIds, createdBY: userId
         })
         const updatePost = await findPostById(post._id);
         return successResponseMessage(res, "Post created successfully!", updatePost);

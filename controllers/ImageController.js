@@ -54,7 +54,7 @@ const imageUpload = async (req, res) => {
         if (!files || files.length === 0) {
             return errorResponseMessage(res, 'Please select Images');
         }
-        const imageFolderName = req.body?.type || 'upload'; // this is folder name
+        const imageFolderName = req.body?.type || 'images'; // this is folder name
         const images = [];
 
         for (const file of files) {
@@ -77,11 +77,12 @@ const imageUpload = async (req, res) => {
                         } else {
                             const fileInfo = {
                                 createdBY: req?.user?.id ?? "660eadc9a8f63ceb173ff3a3",
-                                fileId: response.fileId,
-                                fileType: response.filePath,
-                                fileSize: response.url,
-                                filePath: response.filePath,
-                                fileUrl: response.url,
+                                imageId: response.fileId,
+                                imageType: response.fileType,
+                                imageSize: response.size,
+                                imagePath: response.filePath,
+                                imageUrl: response.url,
+                                folderName:imageFolderName
                             };
                             const imageInfo = await createImage(fileInfo);
                             const imageData = await getImageById(imageInfo._id);
