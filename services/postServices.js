@@ -40,6 +40,11 @@ const getAllPosts = async (skip, pageSize) => {
                 select: 'firstName lastName image'
             }
         })
+        .populate({
+            path: 'images',
+            select: 'imageUrl imageId', // Select only the imagePath field from the Image model
+            // match: { status: true, isDeleted: false } // Optionally, you can add conditions to filter images
+        })
         .sort({ createdAt: -1 })
         .skip(skip).
         limit(pageSize).
