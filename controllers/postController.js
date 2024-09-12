@@ -1,11 +1,18 @@
 const { errorResponseMessage, successResponseMessage, paginationResponseMessage } = require("../helper/responseMessage");
 const { createPost, totalPosts, getAllPosts, findPostById } = require("../services/postServices");
 const Post = require("../models/Post");
+const { createLike, findLikeById } = require("../services/LikeServices");
 const create = async (req, res) => {
     try {
         const { titel, content, images } = req.body
         const imageIds = images.map(image => image._id);
         const userId = req.user.id;
+        // if (!userId) {
+        //     return errorResponseMessage(res, "Something went wrong User!");
+        // }
+        // if (userId) {
+        //     return errorResponseMessage(res,userId);
+        // }
         if (!titel) {
             return errorResponseMessage(res, "Titel is required!");
         }
@@ -41,7 +48,7 @@ const getPosts = async (req, res) => {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
 }
-const postLike = async (req, res) => {
+const postLikeOld = async (req, res) => {
     try {
         const { postId } = req.body;
         const userId = req.user.id;
@@ -73,7 +80,24 @@ const postUnLike = async (req, res) => {
         return errorResponseMessage(res, "Something went wrong: " + error.message);
     }
 }
-
+const postLike = async (req, res) => {
+    try {
+        const { postId } = req.body;
+        const userId = req.user.id;
+        if (!postId) {
+            return errorResponseMessage(res, "Post Id is required!");
+        }
+        const like = await createLike({postId, likedBy:userId});
+        const result = await Post.findByIdAndUpdate(postId, { $push: { likes: like._id } }, { new: true });
+        if (!result) {
+            return errorResponseMessage(res, "Post not found", 404);
+        }
+        const likeData = await findLikeById(like._id);
+        return successResponseMessage(res, "Post Like successfully!", likeData);
+    } catch (error) {
+        return errorResponseMessage(res, "Something went wrong: " + error.message);
+    }
+};
 module.exports = {
     create, getPosts,
     postLike, postUnLike
